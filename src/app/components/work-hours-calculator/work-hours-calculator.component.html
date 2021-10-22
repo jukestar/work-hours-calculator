@@ -1,10 +1,23 @@
 <form [formGroup]="form">
-    <label>Fra</label>
-    <input type="time" formControlName="startTime" />
-    <label>Til</label>
+    <mat-form-field appearance="fill">
+        <mat-label>Fra</mat-label>
+        <input type="time" matInput formControlName="startTime" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Til</mat-label>
+        <input type="time" matInput formControlName="endTime" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Pause</mat-label>
+        <input type="number" matInput formControlName="lunchBreak" />
+    </mat-form-field>
+
+    <!-- <label>Til</label>
     <input type="time" formControlName="endTime" />
     <label>Pause</label>
-    <input type="number" formControlName="lunchBreak" />
+    <input type="number" formControlName="lunchBreak" /> -->
 </form>
 
 <br />
