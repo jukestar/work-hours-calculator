@@ -1,9 +1,79 @@
 <mat-card>
     <mat-card-title>Beregn arbeidstid</mat-card-title>
 
-    <mat-card-subtitle>Fint å være her</mat-card-subtitle>
+    <mat-card-subtitle>Forenkle føring av timer</mat-card-subtitle>
 
     <mat-card-content>
+        <form [formGroup]="form2">
+            <ng-container formArrayName="workHours">
+                <ng-container
+                    *ngFor="
+                        let workHour of workHoursArray.controls;
+                        let i = index;
+                        let first = first
+                    "
+                >
+                    <section
+                        class="c-form"
+                        [formGroup]="getWorkHourFormGroup(workHour)"
+                    >
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fra</mat-label>
+                            <input
+                                type="time"
+                                matInput
+                                formControlName="startTime"
+                            />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Til</mat-label>
+                            <input
+                                type="time"
+                                matInput
+                                formControlName="endTime"
+                            />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Pause (min)</mat-label>
+                            <input
+                                type="number"
+                                matInput
+                                formControlName="lunchBreak"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <input matInput disabled [value]="lineValue(i)" />
+                        </mat-form-field>
+
+                        <button
+                            [disabled]="first"
+                            mat-icon-button
+                            aria-label="Example icon button with a heart icon"
+                            (click)="removeWorkTimeLine(i)"
+                        >
+                            <mat-icon
+                                *ngIf="!first"
+                                aria-hidden="false"
+                                aria-label="Example home icon"
+                                >delete</mat-icon
+                            >
+                        </button>
+                    </section>
+                </ng-container>
+            </ng-container>
+        </form>
+        <button
+            (click)="addWorkHours()"
+            type="button"
+            mat-flat-button
+            color="primary"
+        >
+            Legg til
+        </button>
+    </mat-card-content>
+
+    <!-- <mat-card-content>
         <form class="c-form" [formGroup]="form">
             <mat-form-field appearance="outline">
                 <mat-label>Fra</mat-label>
@@ -20,9 +90,9 @@
                 <input type="number" matInput formControlName="lunchBreak" />
             </mat-form-field>
         </form>
-    </mat-card-content>
+    </mat-card-content> -->
 
-    <mat-card-content>
+    <!-- <mat-card-content>
         <ng-container *ngIf="value$ | async as value">
             {{ secondsToHHMM(value) }}
             <button
@@ -39,11 +109,14 @@
                 {{ secondsToHHMM(item) }}
             </li>
         </ul>
-    </mat-card-content>
+    </mat-card-content> -->
 
     <mat-divider></mat-divider>
 
-    <mat-card-actions align="end">
+    <mat-card-actions class="c-footer">
+        <button mat-stroked-button (click)="onReset()">
+            {{ totalWorkTime }}
+        </button>
         <button mat-button (click)="onReset()">Tilbakestill</button>
     </mat-card-actions>
 </mat-card>

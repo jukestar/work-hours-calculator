@@ -5,8 +5,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .c-form {
     display: flex;
     gap: 1rem;
+    align-items: baseline;
 
     & > mat-form-field {
         width: 6rem;
     }
+}
+
+.c-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -9,6 +9,7 @@ import { MatCardModule } from "@angular/material/card";
 import { AppComponent } from "./app.component";
 import { WorkHoursCalculatorComponent } from "./components/work-hours-calculator/work-hours-calculator.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
         MatButtonModule,
         MatDividerModule,
         MatCardModule,
+        MatIconModule,
     ],
     declarations: [AppComponent, WorkHoursCalculatorComponent],
     bootstrap: [AppComponent],

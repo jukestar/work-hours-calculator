@@ -1,13 +1,14 @@
 import { Component } from "@angular/core";
 import {
     AbstractControl,
+    FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
     Validators,
 } from "@angular/forms";
 import { defer, Observable } from "rxjs";
-import { distinctUntilChanged, map, startWith } from "rxjs/operators";
+import { distinctUntilChanged, map, startWith, take } from "rxjs/operators";
 
 export const controlChanges = <T>(control: AbstractControl): Observable<T> =>
     defer(() =>
@@ -33,6 +34,8 @@ interface Dictionary<T> {
     styleUrls: ["work-hours-calculator.component.scss"],
 })
 export class WorkHoursCalculatorComponent {
+    form2: FormGroup;
+
     form: FormGroup;
     fromControl = new FormControl();
     toControl = new FormControl();
@@ -46,8 +49,11 @@ export class WorkHoursCalculatorComponent {
         lunchBreak: 30,
     };
 
-    constructor(builder: FormBuilder) {
-        this.form = this._buildForm(builder, this._initialWorkTime);
+    constructor(private _builder: FormBuilder) {
+        this.form = this._buildForm(_builder, this._initialWorkTime);
+        this.form2 = this._buildForm2(_builder, this._initialWorkTime);
+
+        this.form2.valueChanges.pipe(take(10)).subscribe(console.log);
 
         this.value$ = controlChanges(this.form).pipe(
             map((formValues: any) => {
@@ -64,6 +70,65 @@ export class WorkHoursCalculatorComponent {
                 return totalSeconds > 0 ? totalSeconds : null;
             })
         );
+    }
+    get workHoursArray(): FormArray {
+        return this.form2.get("workHours") as FormArray;
+    }
+
+    get totalWorkTime(): number | string {
+        if (this.form2.invalid) {
+            return "Ugyldig";
+        }
+        const workHours = this.form2.get("workHours").value;
+
+        let total = 0;
+        workHours.forEach((workHour: WorkTime) => {
+            const fromDate = new Date(`${"2000-01-01"}T${workHour.startTime}`);
+            const toDate = new Date(`${"2000-01-01"}T${workHour.endTime}`);
+            const diffAsSeconds =
+                (toDate.valueOf() - fromDate.valueOf()) / 1000;
+            const breakInSeconds = workHour.lunchBreak * 60;
+            const totalSeconds = diffAsSeconds - breakInSeconds;
+            total += totalSeconds;
+        });
+        if (total < 0) {
+            return "Ugyldig";
+        }
+        return this.secondsToHHMM(total);
+    }
+
+    lineValue(index: number): string {
+        const workTime = this.form2.get("workHours").value[index];
+        const fromDate = new Date(`${"2000-01-01"}T${workTime.startTime}`);
+        const toDate = new Date(`${"2000-01-01"}T${workTime.endTime}`);
+        const diffAsSeconds = (toDate.valueOf() - fromDate.valueOf()) / 1000;
+        const breakInSeconds = workTime.lunchBreak * 60;
+        const totalSeconds = diffAsSeconds - breakInSeconds;
+        if (totalSeconds < 0) {
+            return "";
+        }
+        return this.secondsToHHMM(totalSeconds);
+    }
+
+    getWorkHourFormGroup(x: any) {
+        return x as FormGroup;
+    }
+
+    addWorkHours() {
+        this.workHoursArray.push(
+            this._builder.group({
+                startTime: this._initialWorkTime.startTime,
+                endTime: this._initialWorkTime.endTime,
+                lunchBreak: [0, Validators.min(0)],
+            })
+        );
+    }
+
+    removeWorkTimeLine(index: number): void {
+        if (index === 0) {
+            return;
+        }
+        this.workHoursArray.removeAt(index);
     }
 
     get summation(): string | undefined {
@@ -118,6 +183,18 @@ export class WorkHoursCalculatorComponent {
             startTime: workTime.startTime,
             endTime: workTime.endTime,
             lunchBreak: [workTime.lunchBreak, Validators.min(0)],
+        });
+    }
+
+    private _buildForm2(builder: FormBuilder, workTime: WorkTime): FormGroup {
+        return builder.group({
+            workHours: builder.array([
+                builder.group({
+                    startTime: workTime.startTime,
+                    endTime: workTime.endTime,
+                    lunchBreak: [workTime.lunchBreak, Validators.min(0)],
+                }),
+            ]),
         });
     }
 }
