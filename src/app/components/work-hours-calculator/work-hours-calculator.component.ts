@@ -136,7 +136,10 @@ export class WorkHoursCalculatorComponent {
 
     copyComplete(value: string): void {
         console.log("copy success", value);
-        this._snackBar.open("helo");
+        const config = {
+            duration: 2000,
+        };
+        this._snackBar.open(`${value} kopiert!`, "", config);
     }
 
     private _buildForm2(builder: FormBuilder, workTime: WorkTime): FormGroup {
