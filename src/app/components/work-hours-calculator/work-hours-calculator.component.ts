@@ -64,9 +64,15 @@ export class WorkHoursCalculatorComponent {
         return this.form.get("workHours") as FormArray;
     }
 
-    hasError(x: FormGroup) {
-        console.log(x.hasError("timeRange"));
-        return x.touched && x.dirty && x.hasError("timeRange");
+    hasError(group: FormGroup) {
+        const startTimeControl = group.get("startTime");
+        const endTimeControl = group.get("endTime");
+        const displayError =
+            startTimeControl.touched &&
+            startTimeControl.dirty &&
+            endTimeControl.touched &&
+            endTimeControl.dirty;
+        return displayError && group.hasError("timeRange");
     }
 
     getWorkHourFormGroup(formGroup: any) {
