@@ -1,8 +1,10 @@
 <mat-card>
     <mat-card-title>Beregn arbeidstid</mat-card-title>
+
     <mat-card-subtitle>Fint å være her</mat-card-subtitle>
+
     <mat-card-content>
-        <form [formGroup]="form">
+        <form class="c-form" [formGroup]="form">
             <mat-form-field appearance="outline">
                 <mat-label>Fra</mat-label>
                 <input type="time" matInput formControlName="startTime" />
@@ -14,7 +16,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Pause</mat-label>
+                <mat-label>Pause (min)</mat-label>
                 <input type="number" matInput formControlName="lunchBreak" />
             </mat-form-field>
         </form>
@@ -42,6 +44,6 @@
     <mat-divider></mat-divider>
 
     <mat-card-actions align="end">
-        <button mat-button (click)="onReset()">Reset</button>
+        <button mat-button (click)="onReset()">Tilbakestill</button>
     </mat-card-actions>
 </mat-card>

@@ -1,3 +1,12 @@
 input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
 }
+
+.c-form {
+    display: flex;
+    gap: 1rem;
+
+    & > mat-form-field {
+        width: 6rem;
+    }
+}

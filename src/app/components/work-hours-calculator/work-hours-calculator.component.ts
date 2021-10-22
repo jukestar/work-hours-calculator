@@ -4,6 +4,7 @@ import {
     FormBuilder,
     FormControl,
     FormGroup,
+    Validators,
 } from "@angular/forms";
 import { defer, Observable } from "rxjs";
 import { distinctUntilChanged, map, startWith } from "rxjs/operators";
@@ -116,7 +117,7 @@ export class WorkHoursCalculatorComponent {
         return builder.group({
             startTime: workTime.startTime,
             endTime: workTime.endTime,
-            lunchBreak: workTime.lunchBreak,
+            lunchBreak: [workTime.lunchBreak, Validators.min(0)],
         });
     }
 }
