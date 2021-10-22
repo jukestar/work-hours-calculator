@@ -10,6 +10,8 @@ import { AppComponent } from "./app.component";
 import { WorkHoursCalculatorComponent } from "./components/work-hours-calculator/work-hours-calculator.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
+import { ClipboardModule } from "@angular/cdk/clipboard";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
     imports: [
@@ -22,6 +24,8 @@ import { MatIconModule } from "@angular/material/icon";
         MatDividerModule,
         MatCardModule,
         MatIconModule,
+        ClipboardModule,
+        MatSnackBarModule,
     ],
     declarations: [AppComponent, WorkHoursCalculatorComponent],
     bootstrap: [AppComponent],

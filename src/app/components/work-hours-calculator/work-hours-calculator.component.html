@@ -4,7 +4,7 @@
     <mat-card-subtitle>Forenkle føring av timer</mat-card-subtitle>
 
     <mat-card-content>
-        <form [formGroup]="form2">
+        <form [formGroup]="form">
             <ng-container formArrayName="workHours">
                 <ng-container
                     *ngFor="
@@ -43,21 +43,23 @@
                         </mat-form-field>
 
                         <mat-form-field appearance="outline">
-                            <input matInput disabled [value]="lineValue(i)" />
+                            <input
+                                matInput
+                                disabled
+                                [value]="workTimeLineValue(i)"
+                            />
                         </mat-form-field>
 
                         <button
                             [disabled]="first"
                             mat-icon-button
-                            aria-label="Example icon button with a heart icon"
+                            aria-label="Remove work time line"
                             (click)="removeWorkTimeLine(i)"
+                            type="button"
                         >
-                            <mat-icon
-                                *ngIf="!first"
-                                aria-hidden="false"
-                                aria-label="Example home icon"
-                                >delete</mat-icon
-                            >
+                            <mat-icon *ngIf="!first" aria-label="delete">
+                                delete
+                            </mat-icon>
                         </button>
                     </section>
                 </ng-container>
@@ -73,48 +75,15 @@
         </button>
     </mat-card-content>
 
-    <!-- <mat-card-content>
-        <form class="c-form" [formGroup]="form">
-            <mat-form-field appearance="outline">
-                <mat-label>Fra</mat-label>
-                <input type="time" matInput formControlName="startTime" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Til</mat-label>
-                <input type="time" matInput formControlName="endTime" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Pause (min)</mat-label>
-                <input type="number" matInput formControlName="lunchBreak" />
-            </mat-form-field>
-        </form>
-    </mat-card-content> -->
-
-    <!-- <mat-card-content>
-        <ng-container *ngIf="value$ | async as value">
-            {{ secondsToHHMM(value) }}
-            <button
-                mat-flat-button
-                color="primary"
-                (click)="addTimeDuration(value)"
-            >
-                Legg til
-            </button>
-        </ng-container>
-
-        <ul>
-            <li *ngFor="let item of timeDurations">
-                {{ secondsToHHMM(item) }}
-            </li>
-        </ul>
-    </mat-card-content> -->
-
     <mat-divider></mat-divider>
 
     <mat-card-actions class="c-footer">
-        <button mat-stroked-button (click)="onReset()">
+        <button
+            mat-stroked-button
+            type="button"
+            [cdkCopyToClipboard]="totalWorkTime"
+            (cdkCopyToClipboardCopied)="copyComplete(totalWorkTime)"
+        >
             {{ totalWorkTime }}
         </button>
         <button mat-button (click)="onReset()">Tilbakestill</button>
