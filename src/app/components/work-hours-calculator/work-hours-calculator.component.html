@@ -1,23 +1,11 @@
-<div class="c-input-group">
-    <div class="c-input">
-        <label>Fra</label>
-        <input class="no-margin" type="time" [formControl]="fromControl" />
-    </div>
-
-    <div class="c-input">
-        <label>Til</label>
-        <input class="no-margin" type="time" [formControl]="toControl" />
-    </div>
-
-    <div class="c-input">
-        <label>Pause</label>
-        <input
-            class="c-pause no-margin"
-            type="number"
-            [formControl]="breakControl"
-        />
-    </div>
-</div>
+<form [formGroup]="form">
+    <label>Fra</label>
+    <input type="time" formControlName="startTime" />
+    <label>Til</label>
+    <input type="time" formControlName="endTime" />
+    <label>Pause</label>
+    <input type="number" formControlName="lunchBreak" />
+</form>
 
 <br />
 <ng-container *ngIf="value$ | async as value">
