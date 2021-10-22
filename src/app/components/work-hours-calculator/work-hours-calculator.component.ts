@@ -9,6 +9,7 @@ import {
 import { defer, Observable } from "rxjs";
 import { distinctUntilChanged, startWith } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { validateTimeRange } from "./time-range.validator";
 
 export const controlChanges = <T>(control: AbstractControl): Observable<T> =>
     defer(() =>
@@ -22,10 +23,6 @@ interface WorkTime {
     startTime: string;
     endTime: string;
     lunchBreak: number;
-}
-
-interface Dictionary<T> {
-    [key: string]: T;
 }
 
 @Component({
@@ -67,6 +64,11 @@ export class WorkHoursCalculatorComponent {
         return this.form.get("workHours") as FormArray;
     }
 
+    hasError(x: FormGroup) {
+        console.log(x.hasError("timeRange"));
+        return x.touched && x.dirty && x.hasError("timeRange");
+    }
+
     getWorkHourFormGroup(formGroup: any) {
         return formGroup as FormGroup;
     }
@@ -82,11 +84,14 @@ export class WorkHoursCalculatorComponent {
 
     addWorkHours() {
         this.workHoursArray.push(
-            this._builder.group({
-                startTime: this._initialWorkTime.startTime,
-                endTime: this._initialWorkTime.endTime,
-                lunchBreak: [0, Validators.min(0)],
-            })
+            this._builder.group(
+                {
+                    startTime: this._initialWorkTime.startTime,
+                    endTime: this._initialWorkTime.endTime,
+                    lunchBreak: [0, Validators.min(0)],
+                },
+                { validator: validateTimeRange }
+            )
         );
     }
 
@@ -97,7 +102,15 @@ export class WorkHoursCalculatorComponent {
         this.workHoursArray.removeAt(index);
     }
 
-    secondsToHHMM(seconds: number) {
+    secondsToHHMM(seconds: number): string {
+        if (seconds === 0) {
+            return "";
+        }
+
+        const isValid = seconds > 0;
+        if (!isValid) {
+            return "Ugyldig";
+        }
         var secondsAsHours = (seconds / 3600).toString();
         var secondsAsMinutes = ((seconds / 60) % 60).toString();
         var hours = parseInt(secondsAsHours, 10);
@@ -112,26 +125,26 @@ export class WorkHoursCalculatorComponent {
 
     onReset(): void {
         this.workHoursArray.clear();
-        console.log(this.workHoursArray);
         this.workHoursArray.setControl(
             0,
-            this._builder.group({
-                startTime: this._initialWorkTime.startTime,
-                endTime: this._initialWorkTime.endTime,
-                lunchBreak: [
-                    this._initialWorkTime.lunchBreak,
-                    Validators.min(0),
-                ],
-            })
+            this._builder.group(
+                {
+                    startTime: this._initialWorkTime.startTime,
+                    endTime: this._initialWorkTime.endTime,
+                    lunchBreak: [
+                        this._initialWorkTime.lunchBreak,
+                        Validators.min(0),
+                    ],
+                },
+                { validator: validateTimeRange }
+            )
         );
     }
 
     copyComplete(value: string): void {
-        console.log("copy success", value);
-        const config = {
+        this._snackBar.open(`${value} kopiert!`, "", {
             duration: 2000,
-        };
-        this._snackBar.open(`${value} kopiert!`, "", config);
+        });
     }
 
     private _calculateSeconds(workTime: WorkTime): number {
@@ -145,11 +158,14 @@ export class WorkHoursCalculatorComponent {
     private _buildForm(builder: FormBuilder, workTime: WorkTime): FormGroup {
         return builder.group({
             workHours: builder.array([
-                builder.group({
-                    startTime: workTime.startTime,
-                    endTime: workTime.endTime,
-                    lunchBreak: [workTime.lunchBreak, Validators.min(0)],
-                }),
+                builder.group(
+                    {
+                        startTime: workTime.startTime,
+                        endTime: workTime.endTime,
+                        lunchBreak: [workTime.lunchBreak, Validators.min(0)],
+                    },
+                    { validator: validateTimeRange }
+                ),
             ]),
         });
     }

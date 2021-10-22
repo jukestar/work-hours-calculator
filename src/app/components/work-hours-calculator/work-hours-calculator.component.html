@@ -24,6 +24,11 @@
                                 matInput
                                 formControlName="startTime"
                             />
+                            <mat-hint
+                                *ngIf="hasError(getWorkHourFormGroup(workHour))"
+                            >
+                                Ugyldig
+                            </mat-hint>
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>Til</mat-label>
