@@ -45,9 +45,6 @@ export class WorkHoursCalculatorComponent {
     constructor(private _builder: FormBuilder, private _snackBar: MatSnackBar) {
         this.form = this._buildForm(_builder, this._initialWorkTime);
     }
-    get workHoursArray(): FormArray {
-        return this.form.get("workHours") as FormArray;
-    }
 
     get totalWorkTime(): string {
         if (this.form.invalid) {
@@ -66,6 +63,14 @@ export class WorkHoursCalculatorComponent {
         return this.secondsToHHMM(total);
     }
 
+    get workHoursArray(): FormArray {
+        return this.form.get("workHours") as FormArray;
+    }
+
+    getWorkHourFormGroup(formGroup: any) {
+        return formGroup as FormGroup;
+    }
+
     workTimeLineValue(index: number): string {
         const workTime = this.workHoursArray.value[index];
         const totalSeconds = this._calculateSeconds(workTime);
@@ -73,10 +78,6 @@ export class WorkHoursCalculatorComponent {
             return "";
         }
         return this.secondsToHHMM(totalSeconds);
-    }
-
-    getWorkHourFormGroup(formGroup: any) {
-        return formGroup as FormGroup;
     }
 
     addWorkHours() {
