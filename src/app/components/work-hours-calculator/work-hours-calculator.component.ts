@@ -5,14 +5,8 @@ import {
     FormControl,
     FormGroup,
 } from "@angular/forms";
-import { defer, Observable, combineLatest } from "rxjs";
-import {
-    distinctUntilChanged,
-    map,
-    startWith,
-    take,
-    takeUntil,
-} from "rxjs/operators";
+import { defer, Observable } from "rxjs";
+import { distinctUntilChanged, map, startWith } from "rxjs/operators";
 
 export const controlChanges = <T>(control: AbstractControl): Observable<T> =>
     defer(() =>
@@ -85,9 +79,11 @@ export class WorkHoursCalculatorComponent {
 
     addTimeDuration(seconds: number): void {
         this.timeDurations.push(seconds);
-        this.breakControl.setValue(0);
-        this.fromControl.setValue(null);
-        this.toControl.setValue(null);
+        const newWorkItem = {
+            ...this._initialWorkTime,
+            lunchBreak: 0,
+        };
+        this.form.reset(this._toFormData(newWorkItem));
     }
 
     secondsToHHMM(seconds: number) {
@@ -104,9 +100,7 @@ export class WorkHoursCalculatorComponent {
     }
 
     onReset(): void {
-        this.breakControl.setValue(30);
-        this.fromControl.setValue(null);
-        this.toControl.setValue(null);
+        this.form.reset(this._toFormData(this._initialWorkTime));
         this.timeDurations = [];
     }
 
