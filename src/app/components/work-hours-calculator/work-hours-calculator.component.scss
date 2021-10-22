@@ -1,40 +1,9 @@
-:host {
-    padding: 1rem;
-    background: #1e1e1e;
-    border-radius: 0.5rem;
-}
+// :host {
+//     padding: 1rem;
+//     background: #1e1e1e;
+//     border-radius: 5px;
+// }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
-}
-
-.c-input {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.c-input-group {
-    display: grid;
-    grid-auto-columns: min-content;
-    grid-auto-flow: column;
-    grid-column-gap: 2rem;
-    align-items: center;
-}
-
-.no-margin {
-    margin: 0;
-}
-
-.c-pause {
-    width: 3rem;
-}
-
-.inline {
-    margin-left: 1rem;
-}
-
-.footer {
-    display: flex;
-    justify-content: space-between;
 }
