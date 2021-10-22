@@ -13,8 +13,8 @@ export const controlChanges = <T>(control: AbstractControl): Observable<T> =>
 
 @Component({
     selector: "app-work-hours-calculator",
-    templateUrl: "./work-hours-calculator.component.html",
-    styleUrls: ["./work-hours-calculator.component.scss"],
+    templateUrl: "work-hours-calculator.component.html",
+    styleUrls: ["work-hours-calculator.component.scss"],
 })
 export class WorkHoursCalculatorComponent {
     fromControl = new FormControl();
