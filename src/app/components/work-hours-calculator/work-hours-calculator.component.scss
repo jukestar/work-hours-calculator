@@ -1,7 +1,11 @@
 :host {
     padding: 5rem;
-    background: #7d869c;
+    background: #1e1e1e;
     border-radius: 0.5rem;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
 }
 
 .c-input {

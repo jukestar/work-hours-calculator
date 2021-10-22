@@ -21,13 +21,13 @@
 
 <br />
 <ng-container *ngIf="value$ | async as value">
-    {{ secondsToHHMMSS(value) }}
+    {{ secondsToHHMM(value) }}
     <button class="inline" (click)="addTimeDuration(value)">Legg til</button>
 </ng-container>
 
 <ul>
     <li *ngFor="let item of timeDurations">
-        {{ secondsToHHMMSS(item) }}
+        {{ secondsToHHMM(item) }}
     </li>
 </ul>
 
