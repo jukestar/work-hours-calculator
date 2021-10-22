@@ -1,0 +1,36 @@
+:host {
+    padding: 5rem;
+    background: #7d869c;
+    border-radius: 0.5rem;
+}
+
+.c-input {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.c-input-group {
+    display: grid;
+    grid-auto-columns: min-content;
+    grid-auto-flow: column;
+    grid-column-gap: 2rem;
+    align-items: center;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.c-pause {
+    width: 3rem;
+}
+
+.inline {
+    margin-left: 1rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
