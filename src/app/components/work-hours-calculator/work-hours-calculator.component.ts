@@ -43,7 +43,7 @@ export class WorkHoursCalculatorComponent {
     };
 
     constructor(private _builder: FormBuilder, private _snackBar: MatSnackBar) {
-        this.form = this._buildForm2(_builder, this._initialWorkTime);
+        this.form = this._buildForm(_builder, this._initialWorkTime);
     }
     get workHoursArray(): FormArray {
         return this.form.get("workHours") as FormArray;
@@ -56,13 +56,8 @@ export class WorkHoursCalculatorComponent {
         const workHours = this.workHoursArray.value;
 
         let total = 0;
-        workHours.forEach((workHour: WorkTime) => {
-            const fromDate = new Date(`${"2000-01-01"}T${workHour.startTime}`);
-            const toDate = new Date(`${"2000-01-01"}T${workHour.endTime}`);
-            const diffAsSeconds =
-                (toDate.valueOf() - fromDate.valueOf()) / 1000;
-            const breakInSeconds = workHour.lunchBreak * 60;
-            const totalSeconds = diffAsSeconds - breakInSeconds;
+        workHours.forEach((workTime: WorkTime) => {
+            const totalSeconds = this._calculateSeconds(workTime);
             total += totalSeconds;
         });
         if (total < 0) {
@@ -73,11 +68,7 @@ export class WorkHoursCalculatorComponent {
 
     workTimeLineValue(index: number): string {
         const workTime = this.workHoursArray.value[index];
-        const fromDate = new Date(`${"2000-01-01"}T${workTime.startTime}`);
-        const toDate = new Date(`${"2000-01-01"}T${workTime.endTime}`);
-        const diffAsSeconds = (toDate.valueOf() - fromDate.valueOf()) / 1000;
-        const breakInSeconds = workTime.lunchBreak * 60;
-        const totalSeconds = diffAsSeconds - breakInSeconds;
+        const totalSeconds = this._calculateSeconds(workTime);
         if (totalSeconds < 0) {
             return "";
         }
@@ -142,7 +133,15 @@ export class WorkHoursCalculatorComponent {
         this._snackBar.open(`${value} kopiert!`, "", config);
     }
 
-    private _buildForm2(builder: FormBuilder, workTime: WorkTime): FormGroup {
+    private _calculateSeconds(workTime: WorkTime): number {
+        const fromDate = new Date(`${"2000-01-01"}T${workTime.startTime}`);
+        const toDate = new Date(`${"2000-01-01"}T${workTime.endTime}`);
+        const diffAsSeconds = (toDate.valueOf() - fromDate.valueOf()) / 1000;
+        const breakInSeconds = workTime.lunchBreak * 60;
+        return diffAsSeconds - breakInSeconds;
+    }
+
+    private _buildForm(builder: FormBuilder, workTime: WorkTime): FormGroup {
         return builder.group({
             workHours: builder.array([
                 builder.group({
