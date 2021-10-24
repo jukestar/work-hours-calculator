@@ -7,6 +7,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatCardModule } from "@angular/material/card";
 
 import { AppComponent } from "./app.component";
+import { AutofocusDirective } from "./components/work-hours-calculator/autofocus.directive";
 import { WorkHoursCalculatorComponent } from "./components/work-hours-calculator/work-hours-calculator.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
@@ -27,7 +28,11 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
         ClipboardModule,
         MatSnackBarModule,
     ],
-    declarations: [AppComponent, WorkHoursCalculatorComponent],
+    declarations: [
+        AppComponent,
+        WorkHoursCalculatorComponent,
+        AutofocusDirective,
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
