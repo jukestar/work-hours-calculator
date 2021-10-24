@@ -3,13 +3,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .c-form {
+    min-height: 6rem;
+}
+
+.c-form-section {
     display: flex;
     gap: 1rem;
     align-items: baseline;
-    margin-bottom: 0.5rem;
+    height: 3rem;
 
     & > mat-form-field {
-        width: 59px;
+        width: 60px;
     }
 }
 

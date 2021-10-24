@@ -2,7 +2,7 @@
     <mat-card-subtitle>Beregn arbeidstid</mat-card-subtitle>
 
     <mat-card-content>
-        <form [formGroup]="form">
+        <form [formGroup]="form" class="c-form">
             <ng-container formArrayName="workHours">
                 <ng-container
                     *ngFor="
@@ -12,7 +12,7 @@
                     "
                 >
                     <section
-                        class="c-form"
+                        class="c-form-section"
                         [formGroup]="getWorkHourFormGroup(workHour)"
                     >
                         <mat-form-field appearance="outline">
@@ -81,14 +81,20 @@
     <mat-divider></mat-divider>
 
     <mat-card-actions class="c-footer">
-        <button
-            mat-stroked-button
-            type="button"
-            [cdkCopyToClipboard]="totalWorkTime"
-            (cdkCopyToClipboardCopied)="copyComplete(totalWorkTime)"
-        >
-            {{ totalWorkTime }}
+        <div>
+            <button
+                *ngIf="totalWorkTime"
+                mat-stroked-button
+                type="button"
+                [cdkCopyToClipboard]="totalWorkTime"
+                (cdkCopyToClipboardCopied)="copyComplete(totalWorkTime)"
+            >
+                {{ totalWorkTime }}
+            </button>
+        </div>
+
+        <button mat-button class="c-footer__reset" (click)="onReset()">
+            Tilbakestill
         </button>
-        <button mat-button (click)="onReset()">Tilbakestill</button>
     </mat-card-actions>
 </mat-card>

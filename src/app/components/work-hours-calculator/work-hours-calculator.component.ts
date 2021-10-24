@@ -43,9 +43,9 @@ export class WorkHoursCalculatorComponent {
         this.form = this._buildForm(_builder, this._initialWorkTime);
     }
 
-    get totalWorkTime(): string {
+    get totalWorkTime(): string | undefined {
         if (this.form.invalid) {
-            return "Ugyldig";
+            return undefined;
         }
         const workHours = this.workHoursArray.value;
 
@@ -55,7 +55,7 @@ export class WorkHoursCalculatorComponent {
             total += totalSeconds;
         });
         if (total < 0) {
-            return "Ugyldig";
+            return undefined;
         }
         return this.secondsToHHMM(total);
     }
