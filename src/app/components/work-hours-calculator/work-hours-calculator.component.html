@@ -19,7 +19,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Fra</mat-label>
                                 <input
-                                    autofocus
+                                    inputAutoFocus
                                     type="time"
                                     matInput
                                     formControlName="startTime"
@@ -62,9 +62,13 @@
                                 </mat-icon>
                             </button>
                         </section>
-                        <!-- <span *ngIf="hasError(getWorkHourFormGroup(workHour))">
+                        <span
+                            *ngIf="
+                                groupHasError(getWorkHourFormGroup(workHour))
+                            "
+                        >
                             Ugyldig tidsintervall
-                        </span> -->
+                        </span>
                     </div>
                 </ng-container>
             </ng-container>

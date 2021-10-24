@@ -64,7 +64,7 @@ export class WorkHoursCalculatorComponent {
         return this.form.get("workHours") as FormArray;
     }
 
-    hasError(group: FormGroup) {
+    groupHasError(group: FormGroup) {
         const startTimeControl = group.get("startTime");
         const endTimeControl = group.get("endTime");
         const displayError =
