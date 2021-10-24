@@ -11,60 +11,60 @@
                         let first = first
                     "
                 >
-                    <section
-                        class="c-form-section"
-                        [formGroup]="getWorkHourFormGroup(workHour)"
-                    >
-                        <mat-form-field appearance="outline">
-                            <mat-label>Fra</mat-label>
-                            <input
-                                type="time"
-                                matInput
-                                formControlName="startTime"
-                            />
-                            <mat-hint
-                                *ngIf="hasError(getWorkHourFormGroup(workHour))"
-                            >
-                                Ugyldig
-                            </mat-hint>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Til</mat-label>
-                            <input
-                                type="time"
-                                matInput
-                                formControlName="endTime"
-                            />
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Pause</mat-label>
-                            <input
-                                type="number"
-                                matInput
-                                formControlName="lunchBreak"
-                            />
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <input
-                                matInput
-                                disabled
-                                [value]="workTimeLineValue(i)"
-                            />
-                        </mat-form-field>
-
-                        <button
-                            [disabled]="first"
-                            mat-icon-button
-                            aria-label="Remove work time line"
-                            (click)="removeWorkTimeLine(i)"
-                            type="button"
+                    <div class="c-form-group">
+                        <section
+                            class="c-form-section"
+                            [formGroup]="getWorkHourFormGroup(workHour)"
                         >
-                            <mat-icon *ngIf="!first" aria-label="delete">
-                                delete
-                            </mat-icon>
-                        </button>
-                    </section>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fra</mat-label>
+                                <input
+                                    type="time"
+                                    matInput
+                                    formControlName="startTime"
+                                />
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Til</mat-label>
+                                <input
+                                    type="time"
+                                    matInput
+                                    formControlName="endTime"
+                                />
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Pause</mat-label>
+                                <input
+                                    type="number"
+                                    matInput
+                                    formControlName="lunchBreak"
+                                />
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <input
+                                    matInput
+                                    disabled
+                                    [value]="workTimeLineValue(i)"
+                                />
+                            </mat-form-field>
+
+                            <button
+                                [disabled]="first"
+                                mat-icon-button
+                                aria-label="Remove work time line"
+                                (click)="removeWorkTimeLine(i)"
+                                type="button"
+                            >
+                                <mat-icon *ngIf="!first" aria-label="delete">
+                                    delete
+                                </mat-icon>
+                            </button>
+                        </section>
+                        <span *ngIf="hasError(getWorkHourFormGroup(workHour))">
+                            Ugyldig tidsintervall
+                        </span>
+                    </div>
                 </ng-container>
             </ng-container>
         </form>

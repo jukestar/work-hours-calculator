@@ -6,6 +6,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     min-height: 6rem;
 }
 
+.c-form-group {
+    margin-bottom: 0rem;
+}
+
 .c-form-section {
     display: flex;
     gap: 1rem;
